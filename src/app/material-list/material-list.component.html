@@ -1,0 +1,95 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col">
+      <button (click)="goBack()" class="btn btn-secondary">
+        <img src="assets/icons/left_arrow.png" alt="Back" class="icon-class" /> Back
+      </button>
+    </div>
+    <div class="col text-end">
+      <span class="clock-icon">🕒</span>
+      <span class="current-time">{{ currentTime }}</span>
+    </div>
+  </div>
+
+  
+  <h2 class="mt-4">Material Entries</h2>
+
+  <div class="d-flex justify-content-end mb-2">
+    <!-- Filter Icon -->
+    <button class="btn btn-warning me-2" (click)="toggleFilter()">
+      <i class="bi bi-funnel-fill"></i> <!-- Filter icon -->
+    </button>
+    
+    <!-- Export Icon -->
+    <button class="btn btn-success" (click)="exportToExcel()">
+      <i class="bi bi-file-earmark-arrow-down-fill"></i> <!-- Export icon -->
+    </button>
+  </div>
+  
+  <div *ngIf="isFilterVisible">
+    <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+      <div class="row align-items-end mb-3">
+        <!-- Start Date -->
+        <div class="col-md-3">
+          <label for="startDate" class="form-label">Start Date</label>
+          <input type="date" id="startDate" formControlName="startDate" class="form-control">
+        </div>
+    
+        <!-- End Date -->
+        <div class="col-md-3">
+          <label for="endDate" class="form-label">End Date</label>
+          <input type="date" id="endDate" formControlName="endDate" class="form-control">
+        </div>
+    
+        <!-- Include Inactive -->
+        <div class="col-md-3">
+          <label for="includeInactive" class="form-label d-block">Include Inactive</label>
+          <div class="form-check">
+            <input type="checkbox" id="includeInactive" formControlName="includeInactive" class="form-check-input">
+            <label for="includeInactive" class="form-check-label">Yes</label>
+          </div>
+        </div>
+    
+        <!-- Apply Filter Button -->
+        <div class="col-md-3">
+          <button type="submit" class="btn btn-primary w-100">Apply Filter</button>
+        </div>
+      </div>
+    
+      <!-- Validation Error Message -->
+      <div *ngIf="filterForm.errors?.['dateRangeInvalid']" class="alert alert-danger">
+        Start date must be less than or equal to the end date.
+      </div>
+    </form>
+  </div>
+  
+
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th *ngIf="false" scope="col">Lot No.</th>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Sand</th>
+        <th scope="col">Rocks</th>
+        <th scope="col">Cement</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of entries" [ngClass]="{'inactive-record': entry.isInactive}">
+        <td *ngIf="false">{{ entry.lotNumber }}</td>
+        <td>{{ entry.date }}</td>
+        <td>{{ entry.time }}</td>
+        <td>{{ entry.sand }}</td>
+        <td>{{ entry.rocks }}</td>
+        <td>{{ entry.cement }}</td>
+        <td>
+          <button (click)="markAsInactive(entry._id)" class="btn btn-link p-0">
+            <i class="bi bi-trash text-danger"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>    
+  </table>
+</div>

@@ -1,0 +1,75 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col text-end">
+      <span class="clock-icon">🕒</span>
+      <span class="current-time">{{ currentTime }}</span>
+    </div>
+  </div>
+
+  <form [formGroup]="materialForm" (ngSubmit)="addEntry()">
+    <div class="row mb-3">
+      <div class="col">
+        <label for="lotNumber">Lot Number</label>
+        <input type="text" class="form-control" id="lotNumber" [value]="lotNumber" disabled>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="date">Date</label>
+        <input type="date" class="form-control" id="date" formControlName="date">
+      </div>
+      <div class="col">
+        <label for="time">Time</label>
+        <input type="time" class="form-control" id="time" formControlName="time">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="sand">Sand</label>
+        <input type="number" class="form-control" id="sand" formControlName="sand">
+      </div>
+      <div class="col">
+        <label for="rocks">Rocks</label>
+        <input type="number" class="form-control" id="rocks" formControlName="rocks">
+      </div>
+      <div class="col">
+        <label for="cement">Cement</label>
+        <input type="number" class="form-control" id="cement" formControlName="cement">
+      </div>
+    </div>
+
+    <div class="form-check mb-3">
+      <input type="checkbox" class="form-check-input" id="live" formControlName="live" (change)="onLiveChange()">
+      <label class="form-check-label" for="live">Live</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Store Value</button>
+    <button type="button" (click)="showRecords()" class="btn btn-secondary">Show Records</button>
+
+  </form>
+
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th scope="col">Lot No.</th>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Sand</th>
+        <th scope="col">Rocks</th>
+        <th scope="col">Cement</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of entries">
+        <td>{{ entry.lotNumber }}</td>
+        <td>{{ entry.date }}</td>
+        <td>{{ entry.time }}</td>
+        <td>{{ entry.sand }}</td>
+        <td>{{ entry.rocks }}</td>
+        <td>{{ entry.cement }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
