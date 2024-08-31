@@ -7,7 +7,7 @@ import { Entry } from '../models/entry.model';
   providedIn: 'root'
 })
 export class MaterialService {
-  private apiUrl = 'https://jeelu-backend.onrender.com/api/materials';
+  private apiUrl = 'https://jeelu-backend.up.railway.app/api/materials';
 
   constructor(private http: HttpClient) { }
 

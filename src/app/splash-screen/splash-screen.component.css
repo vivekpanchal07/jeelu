@@ -1,0 +1,52 @@
+.splash-screen {
+  background-color: #f4f4f4; /* Background color of the splash screen */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.logo {
+  width: 100px; /* Logo size */
+  margin-bottom: 20px;
+  animation: pulse 2s infinite; /* Optional logo animation */
+}
+
+.logo img {
+  width: 100%; /* Ensure the logo image scales properly */
+}
+
+.progress-bar {
+  width: 60%; /* Progress bar length */
+  background-color: #ccc; /* Light gray background for the bar */
+  border-radius: 10px;
+  overflow: hidden;
+  height: 8px; /* Height of the progress bar */
+}
+
+.progress {
+  height: 100%;
+  background-color: #ff6600; /* Your brand's accent color */
+  width: 0%; /* Initial width */
+  animation: progress 5s ease-in-out forwards; /* Progress animation */
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
