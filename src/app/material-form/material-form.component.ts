@@ -56,6 +56,24 @@ export class MaterialFormComponent implements OnInit {
     });
   }
 
+  increment(field: string): void {
+    const control = this.materialForm.get(field);
+    if (control) {
+      const currentValue = control.value || 0;
+      control.setValue(currentValue + 1);
+    }
+  }
+
+  decrement(field: string): void {
+    const control = this.materialForm.get(field);
+    if (control) {
+      const currentValue = control.value || 0;
+      if (currentValue > 0) {
+        control.setValue(currentValue - 1);
+      }
+    }
+  }
+
   fetchEntries() {
     const selectedDate = this.materialForm.get('date')?.value;
 
@@ -127,12 +145,21 @@ export class MaterialFormComponent implements OnInit {
         this.entries.unshift(entry);
         this.lotNumber++; // Increment the lot number for the next entry
         this.toastr.success('Record added successfully!', 'Success');
+
+        // Reset the values of "sand," "rocks," and "cement" inputs
+        this.materialForm.patchValue({
+          sand: 0,
+          rocks: 0,
+          cement: 0
+        });
       },
       error: (err) => {
         this.toastr.error('Failed to add record', 'Error');
         console.error(err);
       }
     });
+
+
   }
 
   showRecords() {

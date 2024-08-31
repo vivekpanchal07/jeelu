@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-material-list',
@@ -31,7 +32,8 @@ export class MaterialListComponent implements OnInit {
   constructor(
     private materialService: MaterialService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastrService,
   ) {
     this.filterForm = this.fb.group(
       {
@@ -122,11 +124,15 @@ export class MaterialListComponent implements OnInit {
         const reason = result.value || null; // Use null if no reason is provided
         this.materialService.markAsInactive(entryId, reason).subscribe(
           () => {
-            Swal.fire('Marked as Inactive!', 'The record has been marked as inactive.', 'success');
-            this.fetchEntries(); // Refresh the list
+            // Swal.fire('Marked as Inactive!', 'The record has been marked as inactive.', 'success');
+            this.toastr.info('The record has been marked as inactive.', 'Info');
+
+            // Fetch entries with the current filter applied
+            this.applyFilter();
           },
           (error) => {
-            Swal.fire('Error!', 'There was an error marking the record as inactive.', 'error');
+            // Swal.fire('Error!', 'There was an error marking the record as inactive.', 'error');
+            this.toastr.error('There was an error marking the record as inactive.', 'Error');
             console.error('Failed to mark entry as inactive', error);
           }
         );
@@ -135,22 +141,65 @@ export class MaterialListComponent implements OnInit {
   }
 
   exportToExcel() {
-    // Prepare data for export with only specific fields
-    const filteredData = this.entries.map(entry => ({
-      date: entry.date,
-      time: entry.time,
-      sand: entry.sand,
-      rocks: entry.rocks,
-      cement: entry.cement,
-    }));
+    // Check if there are any records to export
+    if (this.entries.length === 0) {
+      this.toastr.error('There are no records to export');
+      return; // Exit the function if there are no records
+    }
 
-    // Create worksheet and workbook
-    const ws = XLSX.utils.json_to_sheet(filteredData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Entries');
+    Swal.fire({
+      title: 'Enter Camera Number',
+      input: 'text',
+      inputLabel: 'Camera Number',
+      inputPlaceholder: 'Enter the camera number here...',
+      inputAttributes: {
+        required: 'required',
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Generate Report',
+      cancelButtonText: 'Cancel',
+      preConfirm: (cameraNumber) => {
+        if (!cameraNumber) {
+          Swal.showValidationMessage('Camera number is required');
+        }
+        return cameraNumber;
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const cameraNumber = result.value;
 
-    // Save the file
-    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'entries.xlsx');
+        // Get filter values
+        const startDate = this.filterForm.get('startDate')?.value;
+        const endDate = this.filterForm.get('endDate')?.value;
+
+        // Determine filename based on date availability
+        let filename;
+        if (startDate && endDate) {
+          const formattedStartDate = new Date(startDate).toISOString().substring(0, 10);
+          const formattedEndDate = new Date(endDate).toISOString().substring(0, 10);
+          filename = `camera${cameraNumber}-${formattedStartDate}-${formattedEndDate}-report.xlsx`;
+        } else {
+          filename = `camera${cameraNumber}-report.xlsx`;
+        }
+
+        // Prepare data for export with only specific fields
+        const filteredData = this.entries.map(entry => ({
+          date: entry.date,
+          time: entry.time,
+          sand: entry.sand,
+          rocks: entry.rocks,
+          cement: entry.cement,
+        }));
+
+        // Create worksheet and workbook
+        const ws = XLSX.utils.json_to_sheet(filteredData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Entries');
+
+        // Save the file
+        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        saveAs(new Blob([wbout], { type: 'application/octet-stream' }), filename);
+      }
+    });
   }
 }

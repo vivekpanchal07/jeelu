@@ -8,7 +8,6 @@
 }
 
 h1 {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
   color: #343a40;
   text-align: center;
   margin-bottom: 20px;
@@ -22,7 +21,6 @@ h1 {
 label {
   font-weight: bold;
   color: #495057;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
   font-size: 0.9rem; /* Reduced font size */
 }
 
@@ -33,7 +31,6 @@ input[type="number"] {
   border-radius: 5px;
   border: 2px solid #ced4da;
   padding: 8px; /* Reduced padding */
-  font-family: 'Comic Sans MS', cursive, sans-serif;
   font-size: 0.9rem; /* Reduced font size */
 }
 
@@ -43,7 +40,6 @@ input[type="text"]:disabled {
 
 button{
   margin-top: 10px;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
   font-size: 0.9rem;
   width: 100%;
 }
@@ -51,7 +47,6 @@ button{
 button[type="submit"] {
   width: 100%;
   padding: 8px; /* Reduced padding */
-  font-family: 'Comic Sans MS', cursive, sans-serif;
   background-color: #007bff;
   color: white;
   border: none;
@@ -67,7 +62,6 @@ button[type="submit"]:hover {
 
 .table {
   margin-top: 20px;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
   background-color: #fff;
   border-radius: 10px;
   overflow: hidden;
@@ -118,4 +112,75 @@ button[type="submit"]:hover {
   .current-time {
     font-size: 0.9rem; /* Reduced font size */
   }
+}
+
+.custom-input-group {
+  display: flex;
+  align-items: center;
+}
+
+.custom-btn {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  font-size: 20px;
+}
+
+.custom-btn:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.custom-input {
+  text-align: center;
+  padding: 0.375rem 0.75rem;
+  font-size: 16px;
+  height: 40px;
+}
+
+.input-group-prepend .custom-btn,
+.input-group-append .custom-btn {
+  border-radius: 0;
+}
+
+.input-group-prepend .custom-btn:first-child {
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.input-group-append .custom-btn:last-child {
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.custom-input-group .custom-input {
+  border-radius: 0;
+  height: 40px;
+}
+
+.custom-input-group .custom-input:first-child {
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.custom-input-group .custom-input:last-child {
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.custom-input:focus {
+  box-shadow: none;
+  border-color: #007bff;
+}
+
+.custom-input::-webkit-inner-spin-button,
+.custom-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

@@ -28,15 +28,39 @@
     <div class="row mb-3">
       <div class="col">
         <label for="sand">Sand</label>
-        <input type="number" class="form-control" id="sand" formControlName="sand">
+        <div class="input-group custom-input-group">
+          <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary custom-btn" type="button" (click)="decrement('sand')">-</button>
+          </div>
+          <input type="number" class="form-control custom-input mt-2" id="sand" formControlName="sand">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary custom-btn" type="button" (click)="increment('sand')">+</button>
+          </div>
+        </div>
       </div>
       <div class="col">
         <label for="rocks">Rocks</label>
-        <input type="number" class="form-control" id="rocks" formControlName="rocks">
+        <div class="input-group custom-input-group">
+          <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary custom-btn" type="button" (click)="decrement('rocks')">-</button>
+          </div>
+          <input type="number" class="form-control custom-input mt-2" id="rocks" formControlName="rocks">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary custom-btn" type="button" (click)="increment('rocks')">+</button>
+          </div>
+        </div>
       </div>
       <div class="col">
         <label for="cement">Cement</label>
-        <input type="number" class="form-control" id="cement" formControlName="cement">
+        <div class="input-group custom-input-group">
+          <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary custom-btn" type="button" (click)="decrement('cement')">-</button>
+          </div>
+          <input type="number" class="form-control custom-input mt-2" id="cement" formControlName="cement">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary custom-btn" type="button" (click)="increment('cement')">+</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -62,6 +86,11 @@
       </tr>
     </thead>
     <tbody>
+      <tr *ngIf="entries.length < 1">
+        <td colspan="6">
+          There is no record to display 😟 but we can add some 😉.
+        </td>
+      </tr>
       <tr *ngFor="let entry of entries">
         <td>{{ entry.lotNumber }}</td>
         <td>{{ entry.date }}</td>
